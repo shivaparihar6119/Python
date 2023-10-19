@@ -87,22 +87,21 @@ def is_bipartite(graph: defaultdict[int, list[int]]) -> bool:
         False
     """
 
-    def depth_first_search(node: int, color: int) -> bool:
+    def dfs(node: int, color: int) -> bool:
         """
-        Perform depth-first search starting from a node with a specified color.
+        Perform depth-first search from a node with specified color.
 
         Args:
-            node (int): The current node being visited.
-            color (int): The color assigned to the current node.
-            graph (defaultdict[int, list[int]]): An adjacency list representing the graph.
+            node (int): Current node being visited.
+            color (int): Color assigned to the current node.
 
         Returns:
-            bool: True if the graph is bipartite starting from the current node, False otherwise.
+            bool: True if the graph is bipartite fromcurrent node,else False.
 
         Examples:
-            >>> depth_first_search(0, 0, defaultdict(list, {0: [1, 2], 1: [0, 3], 2: [0, 4], 3: [1], 4: [2]}))
+            >>> dfs(0, 0, defaultdict(list, {0: [1, 2], ...}))
             False
-            >>> depth_first_search(0, 0, defaultdict(list, {0: [1, 2], 1: [0, 2], 2: [0, 1]}))
+            >>> dfs(0, 0, defaultdict(list, {0: [1, 2], 1: [0, 2], ...}))
             True
         """
         visited[node] = color
@@ -110,7 +109,7 @@ def is_bipartite(graph: defaultdict[int, list[int]]) -> bool:
             visited[neighbour] == color
             or (
                 visited[neighbour] == -1
-                and not depth_first_search(neighbour, 1 - color)
+                and not dfs(neighbour, 1 - color)
             )
             for neighbour in graph[node]
         )
@@ -118,7 +117,7 @@ def is_bipartite(graph: defaultdict[int, list[int]]) -> bool:
     visited: defaultdict[int, int] = defaultdict(lambda: -1)
 
     return all(
-        not (visited[node] == -1 and not depth_first_search(node, 0)) for node in graph
+        not (visited[node] == -1 and not dfs(node, 0)) for node in graph
     )
 
 
